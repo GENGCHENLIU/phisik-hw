@@ -1,0 +1,50 @@
+#*TITLE:	An Example HW File
+#*AUTHOR:	Eric Liu
+#*DATE:		2018-04-11	##delete this line to use today
+
+:*What Are HW Files
+#HW files are designed to be simplified versions of \\TeX. They are parsed and translated to \\TeX documents, which then can be used as inputs for \\TeX. HW files do not provide the full functionality of \\TeX (of course).
+
+:*How to Write HW Files
+:*Headers
+#\*HW files accept 4 headers: TITLE, AUTHOR, DATE, and IMPORT. The first 3 headers are implemented by passing their respective values to corresponding commands in \TeX (\textbackslash{}title, \textbackslash{}author, and \textbackslash{}date). The IMPORT header accepts any number of package names separated with ',' and translates each into a \textbackslash{}usepackage command.*\
+
+:*Mathematics
+#Unlike in \\TeX documents, where '\\$' is required to enter mathematics mode, text in HW files are by default seen as mathematical expressions. Control characters are required to produce normal text.
+Example text in math mode
+f(x)=a*x+b
+#\*Also note that '*' in HW file is equivalent to '\textbackslash{}cdot' in \TeX.*\
+#
+#'\\$' can still be used to insert math expressions in normal text. As a demonstration: $f(x)=b$ at $x=0$.
+
+:*Normal Text
+#Lines of literal text start with '\\#'. Such lines do not get parsed for expression. But are preserved in the output as normal text.
+#Line breaks defined in HW files are preserved exactly.
+
+:*Source Comments
+#See the HW file to see the effect of comments.
+##Use 2 '#' characters to completely ignore, like here.
+##Everything behind double '#' will not be part of the output.
+
+:*Sections
+#Sections have the effect of \\textbackslash{}section and \\textbackslash{}subsection etc. in \\TeX. Examples of section declarations can be seen above. A section is defined by prefixing the line with ':'. By default, sections are not numbered (the opposite in \\TeX). Numbering can be enabled by putting a '*' after ':'.
+#
+#Sections are closed using empty lines in HW files. Each declared section should have a matching empty line to close it. This also means that, although line breaks are preserved, empty lines will not be preserved. To produce an empty line in the output, put a single '\\#' as the only character on a line.
+
+:*Special Sequences
+#\*'\textbackslash{}'		Escape the next character.*\
+#\*'\textbackslash{}*'		Escape all characters past this sequence.*\
+#'\***\\\textbackslash{}'	Stop escaping characters.
+#\*'\#\#'					Completely ignore rest of the line.*\
+#The following sequences are only effective when used in math mode.
+#\*'*'						A '\textbackslash{}cdot' command in \TeX.*\
+#\*'\_'						Put characters after this in subscripts until a space is found.*\
+#\*'\textasciicircum'		Put characters after this in superscript until a space is found.*\
+#The following sequences are only effective when used at the start of a line.
+#\*'\#'						This line is normal text.*\
+#\*'\#*'					This line is a header entry.*\
+#\*':'						This line is a section title.*\
+#\*':*'						This line is a numbered section title.*\
+#Keep in mind that escaping once only disables the special meaning in HW file. Double escape may be necessary for \\TeX.
+
+
