@@ -1,3 +1,10 @@
+/**
+ * This file provides functions that primarily deals with converting parsed HW files to
+ * TeX files and writing the resulting TeX file. This is the entry point of the program.
+ *
+ * @version 1.3
+ */
+
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
@@ -5,7 +12,7 @@ import kotlin.collections.ArrayList
 
 fun main(args: Array<String>) {
 	if (args.isEmpty()) {
-		println("Version 1.2")
+		println("Version 1.3")
 		println()
 		println("Usage:")
 		println("java ... file [files]")
@@ -109,7 +116,7 @@ private fun prepareFile(file: File): Boolean {
 
 
 private fun translateToTEX(line: Line): StringBuilder {
-	val (lineStr, lineType, depth) = line	//destructuring
+	val (lineStr, lineType, depth) = line
 	val texLine = StringBuilder(lineStr)
 
 	when (lineType) {
@@ -117,11 +124,13 @@ private fun translateToTEX(line: Line): StringBuilder {
 		LineTypes.COMMENT -> {}
 		LineTypes.MATH ,
 		LineTypes.NORMAL -> {
-			if (lineType == LineTypes.MATH) {
-				if (!lineStr.startsWith("\\[") && !lineStr.endsWith("\\]"))
-					texLine.insert(0, '$').append('$')
-			}
-			texLine.append("\\\\")
+			if (lineType == LineTypes.MATH)
+				texLine.insert(0, '$').append('$')
+
+			//line continuation
+			//if line not ends with '\', append "\\"
+			if (!lineStr.endsWith('\\'))
+				texLine.append("\\\\")
 		}
 		LineTypes.REGULAR_TITLE,
 		LineTypes.NUMBERED_TITLE -> {

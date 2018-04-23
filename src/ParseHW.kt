@@ -121,7 +121,8 @@ private fun parseLine(line: String, lineType: LineTypes): StringBuilder {
 
 			if (currentChar == '\\') {
 				if (nextChar != '*')    //only skip one
-					parsedLine.append(nextChar)
+					//if at the end of line, add backslash to indicate no newline in TeX
+					parsedLine.append(nextChar ?: '\\')
 				else
 					isSkipping = true
 				i += 2
